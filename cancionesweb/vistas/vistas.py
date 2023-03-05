@@ -81,7 +81,7 @@ class VistaCancion(Resource):
     def get(self, cancion_id):
         return cancion_schema.dumps(Cancion.query.get_or_404(cancion_id))
     
-    def put(self, cancion_id: int) -> Tuple(str,int):
+    def put(self, cancion_id: int) -> Tuple[str,int]:
         cancion = Cancion.query.get_or_404(cancion_id)
 
         cancion.titulo = request.json['titulo']
@@ -93,7 +93,7 @@ class VistaCancion(Resource):
 
         return cancion_schema.dump(cancion)
 
-    def delete(self, cancion_id: int) -> Tuple(str, int):
+    def delete(self, cancion_id: int) -> Tuple[str, int]:
         cancion = Cancion.query.get_or_404(cancion_id)
 
         db.session.delete(cancion)
