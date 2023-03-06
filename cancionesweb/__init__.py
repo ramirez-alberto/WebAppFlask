@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask-cors import CORS, cross_origin
 from .vistas import (VistaAlbumes, VistaAlbum, VistaAlbumUsuario, VistaCancion,
     VistaAlbumCancion,VistaCanciones, VistaSignIn, VistaLogin)
 from .modelos import db
@@ -24,4 +25,5 @@ def create_app(config= None):
     api.add_resource(VistaLogin, '/login')
     
     jwt = JWTManager(app)
+    cors = CORS(app)
     return app
