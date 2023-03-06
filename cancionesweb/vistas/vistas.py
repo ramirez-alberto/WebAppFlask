@@ -2,6 +2,7 @@ from typing import Any, Tuple
 from flask import request
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
+from flask_jwt_extended import jwt_required
 from ..modelos import AlbumSchema , Album, Usuario, CancionSchema, Cancion, db
 
 album_schema = AlbumSchema()
@@ -15,6 +16,7 @@ class VistaAlbumes(Resource):
         return albums_schema.dump(album)
 
 class VistaAlbumUsuario(Resource):
+    @jwt_required()
     def post(self, usuario_id: int) -> int | Tuple[str,int]:
         album = Album(
             titulo = request.json['titulo'],
@@ -33,6 +35,7 @@ class VistaAlbumUsuario(Resource):
         
         return album_schema.dump((album))
     
+    @jwt_required()
     def get(self,usuario_id: int) -> int | list:
         usuario = Usuario.query.get_or_404(usuario_id)
         return [album_schema.dump(album) for album in usuario.albumes]

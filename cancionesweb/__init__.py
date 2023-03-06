@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+from flask_jwt_extended import JWTManager
 from .vistas import VistaAlbumes, VistaAlbum, VistaAlbumUsuario, VistaCancion, VistaAlbumCancion,VistaCanciones
 from .modelos import db
 
@@ -7,6 +8,7 @@ def create_app(config= None):
     app = Flask(__name__,instance_relative_config=True)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///canciones.sqlite'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config["JWT_SECRET_KEY"] = "super-secret" 
 
     db.init_app(app)
 
@@ -18,5 +20,6 @@ def create_app(config= None):
     api.add_resource(VistaCanciones, '/canciones')
     api.add_resource(VistaCancion, '/canciones/<int:cancion_id>')
     
+    jwt = JWTManager(app)
     return app
     
